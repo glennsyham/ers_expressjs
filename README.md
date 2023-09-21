@@ -57,3 +57,11 @@ User Profile/Account
 -Track additional user information (name, address, etc.)
 -Users can edit their account
 -Users can add a profile picture
+**State-chart Diagram (Reimbursement Statuses)** 
+![](./imgs/state-chart.jpg)
+
+**Use Case Diagram**
+![](./imgs/use-case.jpg)
+
+**Activity Diagram**
+![](./imgs/activity.jpg)
