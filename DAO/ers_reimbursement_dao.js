@@ -133,7 +133,7 @@ function retrieveTicketByAuthor(reimb_author) {
         KeyConditionExpression:
             "reimb_author = :reimb_author",
         ExpressionAttributeValues: {
-            ":reimb_author": "e0426bcd-a561-4f37-9b32-0c9eebae49c7"
+            ":reimb_author": reimb_author
         },
         ScanIndexForward: false
     }

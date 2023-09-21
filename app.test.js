@@ -39,10 +39,10 @@ const uuid = require('uuid');
 //         console.log(data);
 //     });
 
-// reimbDao.retrieveTicketByAuthor('e0426bcd-a561-4f37-9b32-0c9eebae49c7')
-//     .then((data) => {
-//         console.log(data);
-//     })
-//     .catch((err) => {
-//         console.log(data);
-//     });
+reimbDao.retrieveTicketByAuthor('e0426bcd-a561-4f37-9b32-0c9eebae49c7xx')
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((err) => {
+        console.log(data);
+    });
