@@ -102,28 +102,7 @@ function deleteTicketById(reimb_id) {
 
     return docClient.delete(params).promise();
 }
-/*
-{
-    "TableName": "GameScores",
-    "IndexName": "GameTitleIndex",
-    "KeyConditionExpression": "GameTitle = :v_title",
-    "ExpressionAttributeValues": {
-        ":v_title": {"S": "Meteor Blasters"}
-    },
-    "ProjectionExpression": "UserId, TopScore",
-    "ScanIndexForward": false
-}
-    const params = {
-        TableName: "ers_reimbursement",
-        IndexName: "reimb_author-index",
-        KeyConditionExpression:
-            "reimb_author = :reimb_author",
-        ExpressionAttributeValues: {
-            ":reimb_author": { "S": "e0426bcd-a561-4f37-9b32-0c9eebae49c7" }
-        },
-        ScanIndexForward: false
-    }
-*/
+
 // Read
 // retrieve by Author
 function retrieveTicketByAuthor(reimb_author) {

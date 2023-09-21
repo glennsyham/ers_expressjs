@@ -7,7 +7,17 @@ const uuid = require('uuid');
 //usersDao.updateUserById('e0426bcd-a561-4f37-9b32-0c9eebae49c7', 'password', 'donald', 'duck');
 //usersDao.updateUserRoleTypeById('ae565c79-12cf-4b55-af6b-816e89dc5fba', 'manager');
 
+
+
 // usersDao.retrieveUserById('e0426bcd-a561-4f37-9b32-0c9eebae49c7')
+//     .then((data) => {
+//         console.log(data);
+//     })
+//     .catch((err) => {
+//         console.log(data);
+//     });
+
+// usersDao.retrieveUserByUername('changeuser')
 //     .then((data) => {
 //         console.log(data);
 //     })
@@ -39,10 +49,10 @@ const uuid = require('uuid');
 //         console.log(data);
 //     });
 
-reimbDao.retrieveTicketByAuthor('e0426bcd-a561-4f37-9b32-0c9eebae49c7xx')
-    .then((data) => {
-        console.log(data);
-    })
-    .catch((err) => {
-        console.log(data);
-    });
+// reimbDao.retrieveTicketByAuthor('e0426bcd-a561-4f37-9b32-0c9eebae49c7xx')
+//     .then((data) => {
+//         console.log(data);
+//     })
+//     .catch((err) => {
+//         console.log(data);
+//     });

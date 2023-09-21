@@ -38,21 +38,21 @@ As an Employee, I should be able to view all previous reimbursement ticket submi
 
 Previous tickets should also show the details of submission.
 
-#### Reimbursement Types Feature
+#### Reimbursement Types Feature (Optional)
 Employees can add Reimbursement Types
 
 - Travel, Lodging, Food, Other
 - Employees can view previous requests filtered by type
 
- #### Change Roles Feature
+ #### Change Roles Feature (Optional)
 Managers can change other users’ roles
 - Employee to Manager or back to Employee
 
-#### Upload Receipts Feature
+#### Upload Receipts Feature (Optional)
 Employees can add images of receipts to their reimbursement requests
 - Upload and store images (in SQL or cloud storage)
 
-#### User Accounts Feature
+#### User Accounts Feature (Optional)
 User Profile/Account
 
 - Track additional user information (name, address, etc.)
