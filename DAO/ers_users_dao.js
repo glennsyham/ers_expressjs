@@ -39,7 +39,7 @@ function retrieveUserById(ers_users_id) {
 
 // Update
 
-function updateUserById(ers_users_id, user_role_type) {
+function updateUserById(ers_users_id, ers_password, user_first_name, user_last_name) {
     const params = {
         TableName: 'ers_users',
         Key: {
@@ -95,10 +95,25 @@ function updateUserRoleTypeById(ers_users_id, user_role_type) {
     return docClient.update(params).promise();
 }
 
+function retrieveUserByUername(ers_username) {
+    const params = {
+        TableName: "ers_users",
+        IndexName: "ers_username-index",
+        KeyConditionExpression:
+            "ers_username = :ers_username",
+        ExpressionAttributeValues: {
+            ":ers_username": ers_username
+        },
+        ScanIndexForward: false
+    }
+    return docClient.query(params).promise();
+}
+
 module.exports = {
     addUser,
     retrieveUserById,
     updateUserById,
     deleteUserById,
-    updateUserRoleTypeById
+    updateUserRoleTypeById,
+    retrieveUserByUername
 };
