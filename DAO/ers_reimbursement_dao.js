@@ -8,8 +8,9 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 
 // Create
 // addTicket function
-function addTicket(reimb_id, reimb_amount, reimb_description, reimb_author, reimb_resolver, reimb_status, reimb_type) {
+function addTicket(reimb_id, reimb_amount, reimb_description, reimb_author, reimb_resolver, reimb_type) {
     let reimb_submitted = Math.floor(Date.now() / 1000);
+    let reimb_status = "pending";
     const item = {
         'reimb_id': reimb_id,
         'reimb_amount': reimb_amount,
@@ -22,7 +23,6 @@ function addTicket(reimb_id, reimb_amount, reimb_description, reimb_author, reim
 
 
     };
-    console.log(item);
     const params = {
         TableName: 'ers_reimbursement',
         Item: item,
@@ -37,7 +37,7 @@ function retrieveTicketById(reimb_id) {
     const params = {
         TableName: 'ers_reimbursement',
         Key: {
-            ers_users_id
+            reimb_id
         }
     }
 
@@ -102,6 +102,44 @@ function deleteTicketById(reimb_id) {
 
     return docClient.delete(params).promise();
 }
+/*
+{
+    "TableName": "GameScores",
+    "IndexName": "GameTitleIndex",
+    "KeyConditionExpression": "GameTitle = :v_title",
+    "ExpressionAttributeValues": {
+        ":v_title": {"S": "Meteor Blasters"}
+    },
+    "ProjectionExpression": "UserId, TopScore",
+    "ScanIndexForward": false
+}
+    const params = {
+        TableName: "ers_reimbursement",
+        IndexName: "reimb_author-index",
+        KeyConditionExpression:
+            "reimb_author = :reimb_author",
+        ExpressionAttributeValues: {
+            ":reimb_author": { "S": "e0426bcd-a561-4f37-9b32-0c9eebae49c7" }
+        },
+        ScanIndexForward: false
+    }
+*/
+// Read
+// retrieve by Author
+function retrieveTicketByAuthor(reimb_author) {
+    const params = {
+        TableName: "ers_reimbursement",
+        IndexName: "reimb_author-reimb_submitted-index",
+        KeyConditionExpression:
+            "reimb_author = :reimb_author",
+        ExpressionAttributeValues: {
+            ":reimb_author": "e0426bcd-a561-4f37-9b32-0c9eebae49c7"
+        },
+        ScanIndexForward: false
+    }
+    return docClient.query(params).promise();
+}
+
 
 
 module.exports = {
@@ -109,5 +147,6 @@ module.exports = {
     retrieveTicketById,
     updateTicketById,
     updateTicketStatusById,
-    deleteTicketById
+    deleteTicketById,
+    retrieveTicketByAuthor
 };

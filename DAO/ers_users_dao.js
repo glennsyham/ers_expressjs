@@ -39,13 +39,13 @@ function retrieveUserById(ers_users_id) {
 
 // Update
 
-function updateUserById(ers_users_id, ers_password, user_first_name, user_last_name) {
+function updateUserById(ers_users_id, user_role_type) {
     const params = {
         TableName: 'ers_users',
         Key: {
             ers_users_id
         },
-        UpdateExpression: 'set #ers_password = :ers_password, #user_first_name = :user_first_name, #user_last_name = :user_last_name',
+        UpdateExpression: 'set #user_role_type = :ers_password, #user_first_name = :user_first_name, #user_last_name = :user_last_name',
         ExpressionAttributeNames: {
             '#ers_password': 'ers_password',
             '#user_first_name': 'user_first_name',
@@ -74,10 +74,31 @@ function deleteUserById(ers_users_id) {
     return docClient.delete(params).promise();
 }
 
+// Update
+
+function updateUserRoleTypeById(ers_users_id, user_role_type) {
+    const params = {
+        TableName: 'ers_users',
+        Key: {
+            ers_users_id
+        },
+        UpdateExpression: 'set #user_role_type = :user_role_type',
+        ExpressionAttributeNames: {
+            '#user_role_type': 'user_role_type'
+        },
+        ExpressionAttributeValues: {
+            ':user_role_type': user_role_type
+        },
+        ConditionExpression: 'attribute_exists(ers_users_id)',
+    }
+
+    return docClient.update(params).promise();
+}
 
 module.exports = {
     addUser,
     retrieveUserById,
     updateUserById,
-    deleteUserById
+    deleteUserById,
+    updateUserRoleTypeById
 };
