@@ -12,21 +12,22 @@ As an Employee or Manager, I should be able to log into the application.
 
 Ability to register a new account
 
--Must ensure the username is not already registered
--Default employee role
--Should register with at least a username and password
+- Must ensure the username is not already registered
+- Default employee role
+- Should register with at least a username and password
+
 
 #### Submit Ticket Feature
 Employees can submit a new reimbursement ticket
--Must have an amount
--Must have a description
--Should have a default status of Pending
+- Must have an amount
+- Must have a description
+- Should have a default status of Pending
 
 #### Ticketing System Feature
 Managers can process tickets submitted by employees
 
--Tickets can be Approved or Denied
--Tickets cannot change status after processing
+- Tickets can be Approved or Denied
+- Tickets cannot change status after processing
 
 Pending tickets should be added to a queue or list that managers can see
 
@@ -40,23 +41,24 @@ Previous tickets should also show the details of submission.
 #### Reimbursement Types Feature
 Employees can add Reimbursement Types
 
--Travel, Lodging, Food, Other
--Employees can view previous requests filtered by type
+- Travel, Lodging, Food, Other
+- Employees can view previous requests filtered by type
 
  #### Change Roles Feature
 Managers can change other users’ roles
--Employee to Manager or back to Employee
+- Employee to Manager or back to Employee
 
 #### Upload Receipts Feature
 Employees can add images of receipts to their reimbursement requests
--Upload and store images (in SQL or cloud storage)
+- Upload and store images (in SQL or cloud storage)
 
 #### User Accounts Feature
 User Profile/Account
 
--Track additional user information (name, address, etc.)
--Users can edit their account
--Users can add a profile picture
+- Track additional user information (name, address, etc.)
+- Users can edit their account
+- Users can add a profile picture
+
 **State-chart Diagram (Reimbursement Statuses)** 
 ![](./imgs/state-chart.jpg)
 
