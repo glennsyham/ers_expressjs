@@ -1,0 +1,5 @@
+npm install winston
+npm install aws-sdk
+npm install body-parser
+npm install express
+npm install uuid
