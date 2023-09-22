@@ -28,18 +28,7 @@ const logger = createLogger({
 router.use(bodyParser.json());
 
 
-router.get('/', (req, res) => {
-    console.log("workig");
 
-});
-
-router.get('/:id', (req, res) => {
-    const { id } = req.params;
-
-
-});
-
-let log_data;
 router.post('/register', (req, res) => {
     let data = req.body;
     let user_id = uuid.v4();
@@ -106,7 +95,7 @@ router.post('/login', (req, res) => {
 
 */
 
-router.post('/ticket', (req, res) => {
+router.post('/tickets', (req, res) => {
     let data = req.body;
     let gtd = getTokenDetails(req, res);
     const info_ticket = ["amount", "description", "type"];
@@ -141,7 +130,7 @@ router.post('/ticket', (req, res) => {
 });
 
 
-router.put('/ticket', (req, res) => {
+router.put('/tickets', (req, res) => {
     let data = req.body;
     let gtd = getTokenDetails(req, res);
     const getToken = async () => {
@@ -168,6 +157,46 @@ router.put('/ticket', (req, res) => {
     getToken();
 
 });
+
+
+router.get('/tickets', (req, res) => {
+    const requestUrl = url.parse(req.url).query;
+    const req_params = new URLSearchParams(requestUrl);
+    const status = req_params.get('status');
+    let gtd = getTokenDetails(req, res);
+
+    const getToken = async () => {
+        const token_data = await gtd;
+        if (token_data.role == 'manager') {
+            reimbDao.retrieveTicketByStatus(status)
+                .then((data) => {
+                    res.statusCode = 200;
+                    res.send(data.Items)
+                })
+                .catch((err) => {
+                    res.statusCode = 500;
+                    res.send({
+                        message: err
+                    })
+                });
+        } else {
+            reimbDao.retrieveTicketByAuthor(token_data.id)
+                .then((data) => {
+                    res.statusCode = 200;
+                    res.send(data.Items)
+                })
+                .catch((err) => {
+                    res.statusCode = 500;
+                    res.send({
+                        message: err
+                    })
+                });
+        }
+    };
+    getToken();
+
+});
+
 
 function getTokenDetails(req, res) {
     const token = req.headers.authorization.split(' ')[1]; // ['Bearer', '<token>'];
