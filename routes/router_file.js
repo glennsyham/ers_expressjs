@@ -32,25 +32,38 @@ router.use(bodyParser.json());
 router.post('/register', (req, res) => {
     let data = req.body;
     let user_id = uuid.v4();
-
-    usersDao.retrieveUserByUername(data.username).then((resdata) => {
-        if (resdata.Count == 0) {
-            usersDao.addUser(user_id, data.username, data.password, data.first_name, data.last_name, 'employee').then((data) => {
-                res.statusCode = 200;
-                res.send({ message: "Registered Successfully" })
-
-            })
-                .catch((err) => {
-                    res.statusCode = 400;
-                    res.send({
-                        message: err
-                    })
-                });
-        } else {
-            res.statusCode = 400;
-            res.send({ message: "User Already Exist" })
+    const info_user = ["username", "password"];
+    let error_message = '';
+    for (let i = 0; i < info_user.length; i++) {
+        if (data[info_user[i]] == '' || !data[info_user[i]]) {
+            error_message += " " + info_user[i];
         }
-    })
+    }
+    if (error_message != '') {
+        res.statusCode = 400;
+        res.send({
+            message: "Request cannot be submitted missing details: " + error_message
+        })
+    } else {
+        usersDao.retrieveUserByUername(data.username).then((resdata) => {
+            if (resdata.Count == 0) {
+                usersDao.addUser(user_id, data.username, data.password, data.first_name, data.last_name, 'employee').then((data) => {
+                    res.statusCode = 200;
+                    res.send({ message: "Registered Successfully" })
+
+                })
+                    .catch((err) => {
+                        res.statusCode = 400;
+                        res.send({
+                            message: err
+                        })
+                    });
+            } else {
+                res.statusCode = 400;
+                res.send({ message: "User Already Exist" })
+            }
+        })
+    }
 });
 
 router.post('/login', (req, res) => {
