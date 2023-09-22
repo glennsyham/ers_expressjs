@@ -10,7 +10,6 @@ const myRouter = require('./routes/router_file');
 
 
 app.use('/ers', myRouter);
-app.use(bodyParser.json());
 
 
 
