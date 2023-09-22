@@ -136,17 +136,41 @@ router.put('/tickets', (req, res) => {
     const getToken = async () => {
         const token_data = await gtd;
         if (token_data.role == 'manager' && data.id != '' && data.id) {
-            reimbDao.updateTicketStatusById(data.id, data.status, token_data.id).then((resdata) => {
-                res.statusCode = 200;
-                res.send({ message: "Ticket Updated Successfully" })
+            reimbDao.retrieveTicketById(data.id)
+                .then((retrieve_data) => {
+                    let current_ticket = retrieve_data.Item;
+                    if (current_ticket.reimb_status == 'pending') {
+                        reimbDao.updateTicketStatusById(data.id, data.status, token_data.id).then((resdata) => {
+                            res.statusCode = 200;
+                            res.send({ message: "Ticket Updated Successfully" })
 
-            })
+                        })
+                            .catch((err) => {
+                                res.statusCode = 400;
+                                res.send({
+                                    message: err
+                                })
+                            });
+                    } else {
+                        res.statusCode = 400;
+                        res.send({
+                            message: "Ticket is not pending cannot be changed"
+                        })
+                    }
+
+
+
+                })
                 .catch((err) => {
-                    res.statusCode = 400;
+                    res.statusCode = 500;
                     res.send({
                         message: err
                     })
                 });
+
+
+
+
         } else {
             res.statusCode = 400;
             res.send({
