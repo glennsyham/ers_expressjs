@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const reimbursementDao = require('../repository/ers_reimbursement_dao');
+const reimbDao = require('../repository/ers_reimbursement_dao');
 const usersDao = require('../repository/ers_users_dao');
 const jwtUtil = require('../utility/jwt_util');
 const bodyParser = require('body-parser');
@@ -23,6 +23,9 @@ const logger = createLogger({
         new transports.File({ filename: 'error.log', level: 'error' }),
     ]
 })
+
+//router.use(bodyParser.json());
+router.use(bodyParser.json());
 
 
 router.get('/', (req, res) => {
@@ -116,24 +119,105 @@ router.post('/login', (req, res) => {
 */
 
 router.post('/ticket', (req, res) => {
-
-
-
     let body = '';
-    var gtd = getTokenDetails(req, res);
+    let gtd = getTokenDetails(req, res);
     req.on('data', (chunk) => {
         body += chunk;
+
     });
     req.on('end', () => {
-        const data = JSON.parse(body);
+        if (body == '') {
+            res.statusCode = 400;
+            res.send({
+                message: "Request cannot be submitted missing details"
+            })
+        } else {
+            const data = JSON.parse(body);
+            const info_ticket = ["amount", "description", "type"];
+            let error_message = '';
+            for (let i = 0; i < info_ticket.length; i++) {
+                if (data[info_ticket[i]] == '' || !data[info_ticket[i]]) {
+                    error_message += " " + info_ticket[i];
+                }
+            }
+            if (error_message != '') {
+                res.statusCode = 400;
+                res.send({
+                    message: "Request cannot be submitted missing details: " + error_message
+                })
+            } else {
+                const getToken = async () => {
+                    const token_data = await gtd;
+                    reimbDao.addTicket(uuid.v4(), data.amount, data.description, token_data.id, '', data.type).then((resdata) => {
+                        res.statusCode = 200;
+                        res.send({ message: "Ticket Added Successfully" })
 
-        const getToken = async () => {
-            const token_data = await gtd;
-
-        };
-        getToken();
-
+                    })
+                        .catch((err) => {
+                            res.statusCode = 400;
+                            res.send({
+                                message: err
+                            })
+                        });
+                };
+                getToken();
+            }
+        }
     });
+});
+
+
+router.put('/ticket', (req, res) => {
+
+
+    console.log(req.body);
+
+    res.statusCode = 200;
+    res.send({ message: "Ticket Added Successfully" })
+    // let gtd = getTokenDetails(req, res);
+    // req.on('data', (chunk) => {
+    //     body += chunk;
+
+    // });
+    // req.on('end', () => {
+    //     if (body == '') {
+    //         res.statusCode = 400;
+    //         res.send({
+    //             message: "Request cannot be submitted missing details"
+    //         })
+    //     } else {
+    //         const data = JSON.parse(body);
+    //         const info_ticket = ["amount", "description", "type"];
+    //         let error_message = '';
+    //         for (let i = 0; i < info_ticket.length; i++) {
+    //             if (data[info_ticket[i]] == '' || !data[info_ticket[i]]) {
+    //                 error_message += " " + info_ticket[i];
+    //             }
+    //         }
+    //         if (error_message != '') {
+    //             res.statusCode = 400;
+    //             res.send({
+    //                 message: "Request cannot be submitted missing details: " + error_message
+    //             })
+    //         } else {
+    //             const getToken = async () => {
+    //                 const token_data = await gtd;
+    //                 reimbDao.addTicket(uuid.v4(), data.amount, data.description, token_data.id, '', data.type).then((resdata) => {
+    //                     res.statusCode = 200;
+    //                     res.send({ message: "Ticket Added Successfully" })
+
+    //                 })
+    //                     .catch((err) => {
+    //                         res.statusCode = 400;
+    //                         res.send({
+    //                             message: err
+    //                         })
+    //                     });
+    //             };
+    //             getToken();
+    //         }
+    //     }
+    // });
 });
 
 function getTokenDetails(req, res) {
