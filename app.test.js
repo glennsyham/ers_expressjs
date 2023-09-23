@@ -1,5 +1,5 @@
-const usersDao = require('./DAO/ers_users_dao');
-const reimbDao = require('./DAO/ers_reimbursement_dao');
+const usersDao = require('./repository/ers_users_dao');
+const reimbDao = require('./repository/ers_reimbursement_dao');
 const uuid = require('uuid');
 
 //usersDao.addUser(uuid.v4(), 'changeuser', 'password', 'test', 'user', 'employee');
@@ -56,3 +56,11 @@ const uuid = require('uuid');
 //     .catch((err) => {
 //         console.log(data);
 //     });
+
+reimbDao.retrieveTicketAuthorStatus("09d86f22-1410-4c42-a4fc-526f2838e6c2", "pending")
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((err) => {
+        console.log(data);
+    })

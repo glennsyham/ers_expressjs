@@ -109,6 +109,7 @@ function retrieveUserByUername(ers_username) {
     return docClient.query(params).promise();
 }
 
+
 module.exports = {
     addUser,
     retrieveUserById,

@@ -136,6 +136,27 @@ function retrieveTicketByStatus(reimb_status) {
     return docClient.query(params).promise();
 }
 
+function retrieveTicketAuthorStatus(reimb_author, reimb_status) {
+
+    const params = {
+
+        TableName: 'ers_reimbursement',
+        FilterExpression: '#reimb_status = :reimb_status AND #reimb_author = :reimb_author',
+        ExpressionAttributeNames: {
+            '#reimb_status': 'reimb_status',
+            '#reimb_author': 'reimb_author'
+
+        },
+        ExpressionAttributeValues: {
+            ':reimb_status': reimb_status,
+            ':reimb_author': reimb_author
+
+        },
+
+    }
+    return docClient.scan(params).promise();
+
+}
 
 module.exports = {
     addTicket,
@@ -144,5 +165,6 @@ module.exports = {
     updateTicketStatusById,
     deleteTicketById,
     retrieveTicketByAuthor,
-    retrieveTicketByStatus
+    retrieveTicketByStatus,
+    retrieveTicketAuthorStatus
 };
