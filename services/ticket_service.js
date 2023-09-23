@@ -41,14 +41,15 @@ const create_ticket = (req, res) => {
 const update_status_ticket_manager = (req, res) => {
     let data = req.body;
     let gtd = getTokenDetails(req, res);
+    const { id } = req.params;
     const getToken = async () => {
         const token_data = await gtd;
-        if (token_data.role == 'manager' && data.id != '' && data.id) {
-            reimbDao.retrieveTicketById(data.id)
+        if (token_data.role == 'manager' && id != '' && id) {
+            reimbDao.retrieveTicketById(id)
                 .then((retrieve_data) => {
                     let current_ticket = retrieve_data.Item;
                     if (current_ticket.reimb_status == 'pending') {
-                        reimbDao.updateTicketStatusById(data.id, data.status, token_data.id).then((resdata) => {
+                        reimbDao.updateTicketStatusById(id, data.status, token_data.id).then((resdata) => {
                             res.statusCode = 200;
                             res.send({ message: "Ticket Updated Successfully" })
 

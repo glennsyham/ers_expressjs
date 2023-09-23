@@ -14,9 +14,7 @@ router.post('/login', UserService.login);
 
 router.post('/tickets', TicketService.create_ticket);
 
-
-router.put('/tickets', TicketService.update_status_ticket_manager);
-
+router.put('/tickets/:id', TicketService.update_status_ticket_manager);
 
 router.get('/tickets', TicketService.list_ticket);
 
