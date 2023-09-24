@@ -1,23 +1,31 @@
 const express = require('express');
 const router = express.Router();
-const UserService = require('../services/user_service');
-const TicketService = require('../services/ticket_service');
-const jwtUtil = require('../utility/jwt_util');
+const userService = require('../services/user_service');
+const ticketService = require('../services/ticket_service');
+const authGaurd = require('../middleware/auth_gaurd');
 const bodyParser = require('body-parser');
 
 
 router.use(bodyParser.json());
 
-router.post('/register', UserService.register);
+router.post('/register', userService.register);
 
-router.post('/login', UserService.login);
+router.post('/login', userService.login);
 
-router.post('/tickets', TicketService.create_ticket);
+router.use(authGaurd.authenticateJWT);
 
-router.put('/tickets/:id', TicketService.update_status_ticket_manager);
+router.post('/tickets', ticketService.create_ticket);
 
-router.get('/tickets', TicketService.list_ticket);
+router.put('/tickets/:id', ticketService.update_status_ticket_manager);
 
+router.get('/tickets', ticketService.list_ticket);
+
+router.get('/test', (req, res) => {
+    res.statusCode = 200;
+    res.send({
+        message: "test"
+    })
+});
 
 
 module.exports = router;
