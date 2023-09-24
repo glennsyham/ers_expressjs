@@ -12,6 +12,7 @@ const authenticateJWT = (req, res, next) => {
             const token = authHeader.split(' ')[1];
             jwtUtil.verifyTokenAndReturnPayload(token)
                 .then((payload) => {
+                    req.user = payload;
                     next();
                 })
                 .catch((err) => {
